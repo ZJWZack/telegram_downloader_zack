@@ -46,7 +46,7 @@ APPLICATION_NAME = "media_downloader"
 app = Application(CONFIG_NAME, DATA_FILE_NAME, APPLICATION_NAME)
 
 queue: asyncio.Queue = asyncio.Queue()
-RETRY_TIME_OUT = 3
+RETRY_TIME_OUT = 10
 
 logging.getLogger("pyrogram.session.session").addFilter(LogFilter())
 logging.getLogger("pyrogram.client").addFilter(LogFilter())
@@ -110,7 +110,7 @@ def _check_timeout(retry: int, _: int):
         Try to download message 's id
 
     """
-    if retry == 2:
+    if retry == 14:
         return True
     return False
 
@@ -436,7 +436,7 @@ async def download_media(
 
     message_id = message.id
 
-    for retry in range(3):
+    for retry in range(15):
         try:
             temp_download_path = await client.download_media(
                 message,
